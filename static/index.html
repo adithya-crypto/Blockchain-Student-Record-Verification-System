@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Record Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Student Record Management</h1>
+    <label for="studentId">Student ID:</label>
+    <input type="text" id="studentId"><br><br>
+    <label for="name">Name:</label>
+    <input type="text" id="name"><br><br>
+    <label for="grade">Grade:</label>
+    <input type="text" id="grade"><br><br>
+    <button onclick="addRecord()">Add Record</button>
+    <button onclick="verifyStudent()">Verify</button>
+    <div id="result"></div>
+
+    <script>
+        const baseURL = 'http://localhost:5000';
+
+        function addRecord() {
+            const studentId = document.getElementById('studentId').value;
+            const name = document.getElementById('name').value;
+            const grade = document.getElementById('grade').value;
+
+            axios.post(`${baseURL}/add_record`, {
+                student_id: studentId,
+                name: name,
+                grade: grade
+            })
+            .then(response => {
+                document.getElementById('result').innerText = response.data.message;
+            })
+            .catch(error => {
+                console.error(error);
+                document.getElementById('result').innerText = 'Error adding record';
+            });
+        }
+
+        function verifyStudent() {
+            const studentId = document.getElementById('studentId').value;
+            const name = document.getElementById('name').value;
+            const grade = document.getElementById('grade').value;
+
+            axios.post(`${baseURL}/verify`, {
+                student_id: studentId,
+                name: name,
+                grade: grade
+            })
+            .then(response => {
+                document.getElementById('result').innerText = response.data.message;
+            })
+            .catch(error => {
+                console.error(error);
+                document.getElementById('result').innerText = 'Error verifying student';
+            });
+        }
+    </script>
+</body>
+</html>
